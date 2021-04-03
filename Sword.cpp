@@ -1,21 +1,10 @@
 #include "Sword.h"
 
-Sword::Sword(std::string name, std::string soundString):
-    Weapon(name, soundString)
+Sword::Sword(std::string name, std::string soundString, int price):
+    Weapon::Weapon(name, soundString, price)
 {
 }
 
-bool Sword::IsOwned()
+Sword::~Sword()
 {
-    return Weapon::IsOwned();
-}
-
-std::string Sword::getName()
-{
-    return Weapon::getName();
-}
-
-void Sword::SoundForUsing()
-{
-    Weapon::SoundForUsing();
 }

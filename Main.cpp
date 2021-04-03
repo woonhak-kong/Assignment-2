@@ -6,10 +6,11 @@
 
 int main()
 {
-	Store store;
+	Store* store = new Store();
 	Player player;
 
-	store.EnterStore(player);
+	store->EnterStore(player);
+	delete store;
 
 
 
