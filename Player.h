@@ -6,7 +6,19 @@
 class Player
 {
 
+
+
 public:
+
+	enum class EQUIP_PLACE
+	{
+		Q = 0,
+		W,
+		E,
+		R,
+		F
+	};
+
 
 	Player();
 	~Player();
@@ -16,6 +28,10 @@ public:
 	float setBalance(float balance);
 	void AddWeapon(Weapon* weapon);
 	std::unordered_map<int, Weapon*>& getWeaponList();
+	std::unordered_map<EQUIP_PLACE, Weapon*>& getEquippedWeaponList();
+
+	void EquipWeapon(EQUIP_PLACE place, Weapon* weapon);
+	void UseWeapon(EQUIP_PLACE place);
 
 
 
@@ -24,6 +40,7 @@ private:
 	int m_numOfWeaponOwned;
 	float m_balance;
 	std::unordered_map<int, Weapon*> m_WeaponList;
+	std::unordered_map<EQUIP_PLACE, Weapon*> m_EquippedWeaponList;
 
 
 };

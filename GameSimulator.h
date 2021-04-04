@@ -34,6 +34,8 @@ private:
 	void ShowGameUI(Player player);
 	void PrintSquare(COORD position);
 	void ShowPlayerItem(Player player);
+	void ShowPlayerEquippedWeapon(Player player);
+	void SetPlaceWithWeapon(COORD position, Weapon* weapon);
 
 private:
 

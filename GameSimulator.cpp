@@ -3,6 +3,8 @@
 #include "Player.h"
 #include <iostream>
 #include <iomanip>
+#include <cstdlib>
+#include <string>
 
 #include "Gun.h"
 #include "Sword.h"
@@ -38,20 +40,130 @@ void GameSimulator::Start()
 	player.AddWeapon(new Wand("Ice_Wand", "Fire Ball!!", 2000));
 	player.AddWeapon(new Wand("Fire_Wand", "Ice Ball!!", 2000));
 
-	ShowGameUI(player);
+
 
 
 	ChangeCC(COLOR::WHITE);
-	int select = 0;
-
+	//ShowPlayerEquippedWeapon(player);
 	do
 	{
-		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + 10);
-		cout << "Choose your weapon on right side by type number";
-		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + 11);
-		cout << "> ";
-		cin >> select;
+		string select;
+		int tmpLine = 10;
 
+
+		ShowGameUI(player);
+
+
+
+		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+		cout << "Choose your weapon to equip on right side by typing number";
+		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+		cout << "Or type character (q, w, e, r, f) for using";
+		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+		cout << "> ";
+		getline(cin, select);
+		//cin.get();
+
+		int selectToInt = 0;
+		if (atoi(select.c_str()) != 0)
+		{
+			selectToInt = atoi(select.c_str());
+		}
+
+
+		cout << selectToInt;
+
+		if (select == "q" || select == "w" || select == "e" || select == "r" || select == "f")
+		{
+			if (select == "q")
+			{
+				player.UseWeapon(Player::EQUIP_PLACE::Q);
+			}
+			else if (select == "w")
+			{
+				player.UseWeapon(Player::EQUIP_PLACE::W);
+			}
+			else if (select == "e")
+			{
+				player.UseWeapon(Player::EQUIP_PLACE::E);
+			}
+			else if (select == "r")
+			{
+				player.UseWeapon(Player::EQUIP_PLACE::R);
+			}
+			else if (select == "f")
+			{
+				player.UseWeapon(Player::EQUIP_PLACE::F);
+			}
+
+		}
+		else if (selectToInt > player.getWeaponList().size() || selectToInt < 1)
+		{
+			ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+			cout << "Please Type Correct Number!!";
+			ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+			cout << "Enter please...";
+			cin.get();
+
+			if (cin.fail())
+			{
+				cin.clear();
+				cin.ignore(10, '\n');
+				cin.get();
+				//cin.get();
+			}
+
+		}
+		else
+		{
+			char tmpPlace;
+
+			ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+			cout << "You select [" << player.getWeaponList().at(selectToInt)->getName() << "].";
+			ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+			cout << "What Place (q,w,e,r,f) Do You Equip This?";
+			ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+			cin >> tmpPlace;
+			cin.get();
+
+			if (tmpPlace == 'q' || tmpPlace == 'w' || tmpPlace == 'e' || tmpPlace == 'r' || tmpPlace == 'f')
+			{
+
+				switch (tmpPlace)
+				{
+					case 'q':
+						player.EquipWeapon(Player::EQUIP_PLACE::Q, player.getWeaponList().at(selectToInt));
+						break;
+					case 'w':
+						player.EquipWeapon(Player::EQUIP_PLACE::W, player.getWeaponList().at(selectToInt));
+						break;
+					case 'e':
+						player.EquipWeapon(Player::EQUIP_PLACE::E, player.getWeaponList().at(selectToInt));
+						break;
+					case 'r':
+						player.EquipWeapon(Player::EQUIP_PLACE::R, player.getWeaponList().at(selectToInt));
+						break;
+					case 'f':
+						player.EquipWeapon(Player::EQUIP_PLACE::F, player.getWeaponList().at(selectToInt));
+						break;
+					default:
+						break;
+				}
+
+			}
+			else
+			{
+				ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+				cout << "Please Type Correct Character!!";
+				ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+				cout << "Enter please...";
+				cin.get();
+			}
+
+
+		}
+
+		system("cls");
 	} while (true);
 
 
@@ -96,8 +208,10 @@ void GameSimulator::ShowGameUI(Player player)
 
 	ShowPlayerItem(player);
 
+	ShowPlayerEquippedWeapon(player);
 
-	ChangeCursorPlace(1, 30);
+
+	//ChangeCursorPlace(1, 30);
 }
 
 void GameSimulator::PrintSquare(COORD position)
@@ -147,4 +261,41 @@ void GameSimulator::ShowPlayerItem(Player player)
 	//}
 
 
+}
+
+void GameSimulator::ShowPlayerEquippedWeapon(Player player)
+{
+	auto equippedList = player.getEquippedWeaponList();
+
+	for (auto iter = equippedList.begin(); iter != equippedList.end(); iter++)
+	{
+		switch ((*iter).first)
+		{
+			case Player::EQUIP_PLACE::Q:
+				SetPlaceWithWeapon(Q_NAME_PLACE,(*iter).second);
+				break;
+			case Player::EQUIP_PLACE::W:
+				SetPlaceWithWeapon(W_NAME_PLACE, (*iter).second);
+				break;
+			case Player::EQUIP_PLACE::E:
+				SetPlaceWithWeapon(E_NAME_PLACE, (*iter).second);
+				break;
+			case Player::EQUIP_PLACE::R:
+				SetPlaceWithWeapon(R_NAME_PLACE, (*iter).second);
+				break;
+			case Player::EQUIP_PLACE::F:
+				SetPlaceWithWeapon(F_NAME_PLACE, (*iter).second);
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+void GameSimulator::SetPlaceWithWeapon(COORD position, Weapon* weapon)
+{
+	ChangeCC(COLOR::GREEN);
+	ChangeCursorPlace(position.X, position.Y);
+	cout << weapon->getName();
+	ChangeCC(COLOR::WHITE);
 }
