@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameSimulator.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -28,6 +29,7 @@
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameSimulator.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Store.h" />

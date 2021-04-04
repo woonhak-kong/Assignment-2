@@ -34,10 +34,22 @@ void Store::EnterStore(Player& player)
 
 		if (select == 3)
 		{
-			cout << "Thanks. Bye!\n";
-			cout << "Enter please.......";
-			cin.get();
-			cin.get();
+			if (player.getWeaponList().size() < 1)
+			{
+				select = -1;
+				cout << "You cannot go out of this store without buying!!\n";
+				cout << "You must buy at least one thing. HAHAHAHAHAHA\n";
+				cout << "Enter please.......";
+				cin.get();
+				cin.get();
+			}
+			else
+			{
+				cout << "Thanks. Bye!\n";
+				cout << "Enter please.......";
+				cin.get();
+				cin.get();
+			}
 		}
 		else if (select == 1)
 		{

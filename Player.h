@@ -15,6 +15,7 @@ public:
 	float getBalance();
 	float setBalance(float balance);
 	void AddWeapon(Weapon* weapon);
+	std::unordered_map<int, Weapon*>& getWeaponList();
 
 
 

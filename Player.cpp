@@ -24,3 +24,8 @@ void Player::AddWeapon(Weapon* weapon)
 {
 	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(++m_numOfWeaponOwned, weapon));
 }
+
+std::unordered_map<int, Weapon*>& Player::getWeaponList()
+{
+	return m_WeaponList;
+}

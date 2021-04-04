@@ -1,20 +1,18 @@
 #include <iostream>
 #include "Store.h"
 #include "Player.h"
+#include "GameSimulator.h"
 
 
 
 int main()
 {
-	Store* store = new Store();
-	Player player;
-
-	store->EnterStore(player);
-	delete store;
+	GameSimulator* game = new GameSimulator();
+	game->Start();
 
 
 
 
-
+	delete game;
 	return 0;
 }
