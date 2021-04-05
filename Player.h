@@ -30,8 +30,8 @@ public:
 	std::unordered_map<int, Weapon*>& getWeaponList();
 	std::unordered_map<EQUIP_PLACE, Weapon*>& getEquippedWeaponList();
 
-	void EquipWeapon(EQUIP_PLACE place, Weapon* weapon);
-	void UseWeapon(EQUIP_PLACE place);
+	bool EquipWeapon(EQUIP_PLACE place, Weapon* weapon);
+	bool UseWeapon(EQUIP_PLACE place);
 
 
 

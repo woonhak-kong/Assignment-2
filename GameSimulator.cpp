@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <string>
+#include <algorithm>
 
 #include "Gun.h"
 #include "Sword.h"
@@ -24,30 +25,31 @@ GameSimulator::~GameSimulator()
 
 void GameSimulator::Start()
 {
-	//Store* store = new Store();
+	Store* store = new Store();
 	Player player;
-	//store->EnterStore(player);
-	//delete store;
+	store->EnterStore(player);
+	delete store;
 
-	player.AddWeapon(new Sword("Dragon_Slayer", "Kill the Dragon!!", 1000));
-	player.AddWeapon(new Sword("Excalibur", "Excalibur!!!!!", 2000));
-	player.AddWeapon(new Sword("Storm_Blinger", "Lighting!!", 1500));
-	player.AddWeapon(new Sword("Asura", "Asura Pa Chun Mu!!", 5000));
-	player.AddWeapon(new Gun("Flamethrower", "phu~~~~~~~~~", 1000));
-	player.AddWeapon(new Gun("Shot_Gun", "Shot!!", 1500));
-	player.AddWeapon(new Gun("Pistol", "Bang!!", 500));
-	player.AddWeapon(new Gun("Sniper", "slient kill!!", 2000));
-	player.AddWeapon(new Wand("Ice_Wand", "Fire Ball!!", 2000));
-	player.AddWeapon(new Wand("Fire_Wand", "Ice Ball!!", 2000));
+	//player.AddWeapon(new Sword("Dragon_Slayer", "Kill the Dragon!!", 1000));
+	//player.AddWeapon(new Sword("Excalibur", "Excalibur!!!!!", 2000));
+	//player.AddWeapon(new Sword("Storm_Blinger", "Lighting!!", 1500));
+	//player.AddWeapon(new Sword("Asura", "Asura Pa Chun Mu!!", 5000));
+	//player.AddWeapon(new Gun("Flamethrower", "phu~~~~~~~~~", 1000));
+	//player.AddWeapon(new Gun("Shot_Gun", "Shot!!", 1500));
+	//player.AddWeapon(new Gun("Pistol", "Bang!!", 500));
+	//player.AddWeapon(new Gun("Sniper", "slient kill!!", 2000));
+	//player.AddWeapon(new Wand("Ice_Wand", "Ice Ball!!", 2000));
+	//player.AddWeapon(new Wand("Fire_Wand", "Fire Ball!!", 2000));
 
 
 
 
 	ChangeCC(COLOR::WHITE);
+	string select;
+
 	//ShowPlayerEquippedWeapon(player);
 	do
 	{
-		string select;
 		int tmpLine = 10;
 
 
@@ -56,7 +58,7 @@ void GameSimulator::Start()
 
 
 		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
-		cout << "Choose your weapon to equip on right side by typing number";
+		cout << "Choose your weapon to equip on right side by typing number (EXIT is \'x\')";
 		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
 		cout << "Or type character (q, w, e, r, f) for using";
 		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
@@ -71,31 +73,38 @@ void GameSimulator::Start()
 		}
 
 
-		cout << selectToInt;
-
 		if (select == "q" || select == "w" || select == "e" || select == "r" || select == "f")
 		{
-			if (select == "q")
+			ChangeCC(COLOR::RED);
+			ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+			if (select == "q" && player.UseWeapon(Player::EQUIP_PLACE::Q))
 			{
-				player.UseWeapon(Player::EQUIP_PLACE::Q);
 			}
-			else if (select == "w")
+			else if (select == "w" && player.UseWeapon(Player::EQUIP_PLACE::W))
 			{
-				player.UseWeapon(Player::EQUIP_PLACE::W);
 			}
-			else if (select == "e")
+			else if (select == "e" && player.UseWeapon(Player::EQUIP_PLACE::E))
 			{
-				player.UseWeapon(Player::EQUIP_PLACE::E);
 			}
-			else if (select == "r")
+			else if (select == "r" && player.UseWeapon(Player::EQUIP_PLACE::R))
 			{
-				player.UseWeapon(Player::EQUIP_PLACE::R);
 			}
-			else if (select == "f")
+			else if (select == "f" && player.UseWeapon(Player::EQUIP_PLACE::F))
 			{
-				player.UseWeapon(Player::EQUIP_PLACE::F);
 			}
-
+			else
+			{
+				transform(select.begin(), select.end(), select.begin(), ::toupper);
+				cout << "You Did Not Equip Weapon on [" << select << "].";
+			}
+			cin.get();
+			ChangeCC(COLOR::WHITE);
+		}
+		else if (select == "x")
+		{
+			ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+			cout << "Good Bye.....";
+			cin.get();
 		}
 		else if (selectToInt > player.getWeaponList().size() || selectToInt < 1)
 		{
@@ -105,13 +114,13 @@ void GameSimulator::Start()
 			cout << "Enter please...";
 			cin.get();
 
-			if (cin.fail())
-			{
-				cin.clear();
-				cin.ignore(10, '\n');
-				cin.get();
-				//cin.get();
-			}
+			//if (cin.fail())
+			//{
+			//	cin.clear();
+			//	cin.ignore(10, '\n');
+			//	cin.get();
+			//	//cin.get();
+			//}
 
 		}
 		else
@@ -132,19 +141,45 @@ void GameSimulator::Start()
 				switch (tmpPlace)
 				{
 					case 'q':
-						player.EquipWeapon(Player::EQUIP_PLACE::Q, player.getWeaponList().at(selectToInt));
+						if (!player.EquipWeapon(Player::EQUIP_PLACE::Q, player.getWeaponList().at(selectToInt)))
+						{
+							ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+							cout << "You already equipped this weapon.....";
+							cin.get();
+
+						}
 						break;
 					case 'w':
-						player.EquipWeapon(Player::EQUIP_PLACE::W, player.getWeaponList().at(selectToInt));
+						if (!player.EquipWeapon(Player::EQUIP_PLACE::W, player.getWeaponList().at(selectToInt)))
+						{
+							ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+							cout << "You already equipped this weapon.....";
+							cin.get();
+						}
 						break;
 					case 'e':
-						player.EquipWeapon(Player::EQUIP_PLACE::E, player.getWeaponList().at(selectToInt));
+						if (!player.EquipWeapon(Player::EQUIP_PLACE::E, player.getWeaponList().at(selectToInt)))
+						{
+							ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+							cout << "You already equipped this weapon.....";
+							cin.get();
+						}
 						break;
 					case 'r':
-						player.EquipWeapon(Player::EQUIP_PLACE::R, player.getWeaponList().at(selectToInt));
+						if (!player.EquipWeapon(Player::EQUIP_PLACE::R, player.getWeaponList().at(selectToInt)))
+						{
+							ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+							cout << "You already equipped this weapon.....";
+							cin.get();
+						}
 						break;
 					case 'f':
-						player.EquipWeapon(Player::EQUIP_PLACE::F, player.getWeaponList().at(selectToInt));
+						if (!player.EquipWeapon(Player::EQUIP_PLACE::F, player.getWeaponList().at(selectToInt)))
+						{
+							ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
+							cout << "You already equipped this weapon.....";
+							cin.get();
+						}
 						break;
 					default:
 						break;
@@ -164,7 +199,7 @@ void GameSimulator::Start()
 		}
 
 		system("cls");
-	} while (true);
+	} while (select != "x");
 
 
 
@@ -202,7 +237,6 @@ void GameSimulator::ShowGameUI(Player player)
 	cout << "    [R]";
 	ChangeCursorPlace(F_PLACE.X + 4, F_PLACE.Y - 1);
 	cout << "    [F]";
-	ChangeCC(COLOR::WHITE);
 
 
 
@@ -210,6 +244,7 @@ void GameSimulator::ShowGameUI(Player player)
 
 	ShowPlayerEquippedWeapon(player);
 
+	ChangeCC(COLOR::WHITE);
 
 	//ChangeCursorPlace(1, 30);
 }
@@ -250,7 +285,15 @@ void GameSimulator::ShowPlayerItem(Player player)
 		ChangeCursorPlace(ITEM_SHWING_PLACE.X + 2, (ITEM_SHWING_PLACE.Y - 1) + (*iter).first * 2);
 		ChangeCC(COLOR::RED);
 		cout << setw(2) << left <<(*iter).first << ". ";
-		ChangeCC(COLOR::GREEN);
+
+		if ((*iter).second->IsBought())
+		{
+			ChangeCC(COLOR::RED);
+		}
+		else
+		{
+			ChangeCC(COLOR::GREEN);
+		}
 		cout << (*iter).second->getName();
 	}
 

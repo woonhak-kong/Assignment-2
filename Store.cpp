@@ -81,10 +81,10 @@ void Store::InitStore()
 	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(2, new Sword("Excalibur", "Excalibur!!!!!", 2000)));
 	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(3, new Sword("Storm_Blinger", "Lighting!!", 1500)));
 	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(4, new Sword("Asura", "Asura Pa Chun Mu!!", 5000)));
-	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(5, new Gun("Flamethrower", "phu~~~~~~~~~", 1000)));
+	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(5, new Gun("Flamethrower", "Phu~~~~~~~~~", 1000)));
 	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(6, new Gun("Shot_Gun", "Shot!!", 1500)));
 	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(7, new Gun("Pistol", "Bang!!", 500)));
-	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(8, new Gun("Sniper", "slient kill!!", 2000)));
+	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(8, new Gun("Sniper", "Slient kill!!", 2000)));
 	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(9, new Wand("Ice_Wand", "Fire Ball!!", 2000)));
 	m_WeaponList.insert(std::unordered_map<int, Weapon*>::value_type(10, new Wand("Fire_Wand", "Ice Ball!!", 2000)));
 }

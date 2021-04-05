@@ -35,25 +35,41 @@ std::unordered_map<Player::EQUIP_PLACE, Weapon*>& Player::getEquippedWeaponList(
 	return m_EquippedWeaponList;
 }
 
-void Player::EquipWeapon(EQUIP_PLACE place, Weapon* weapon)
+bool Player::EquipWeapon(EQUIP_PLACE place, Weapon* weapon)
 {
-	auto tmpWeapon = m_EquippedWeaponList.find(place);
 
-	if (tmpWeapon == m_EquippedWeaponList.end())
+
+	if (!weapon->IsBought())
 	{
+		auto tmpWeapon = m_EquippedWeaponList.find(place);
+		// if there is not empty
+		if (tmpWeapon != m_EquippedWeaponList.end())
+		{
+			tmpWeapon->second->setBought(false);
+			m_EquippedWeaponList.erase(place);
+		}
 		m_EquippedWeaponList[place] = weapon;
+		weapon->setBought(true);
+		return true;
 	}
-	else if (tmpWeapon->second->getName() != weapon->getName())
+	else
 	{
-		m_EquippedWeaponList[place] = weapon;
+		return false;
+
 	}
+
 }
 
-void Player::UseWeapon(EQUIP_PLACE place)
+bool Player::UseWeapon(EQUIP_PLACE place)
 {
 	auto tmpWeapon = m_EquippedWeaponList.find(place);
 	if (tmpWeapon != m_EquippedWeaponList.end())
 	{
 		tmpWeapon->second->SoundForUsing();
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
