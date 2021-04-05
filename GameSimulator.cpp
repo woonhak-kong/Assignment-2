@@ -7,9 +7,6 @@
 #include <string>
 #include <algorithm>
 
-#include "Gun.h"
-#include "Sword.h"
-#include "Wand.h"
 
 using namespace std;
 
