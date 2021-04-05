@@ -60,7 +60,7 @@ void GameSimulator::Start()
 		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
 		cout << "Choose your weapon to equip on right side by typing number (EXIT is \'x\')";
 		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
-		cout << "Or type character (q, w, e, r, f) for using";
+		cout << "Or type character (q, w, e, r, f) for using weapon";
 		ChangeCursorPlace(Q_PLACE.X, Q_PLACE.Y + tmpLine++);
 		cout << "> ";
 		getline(cin, select);
